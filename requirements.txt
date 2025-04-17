@@ -1,0 +1,8 @@
+Flask==3.1.0
+tensorflow-cpu==2.13.0
+opencv-python
+Pillow
+numpy
+openai
+gunicorn
+gdown

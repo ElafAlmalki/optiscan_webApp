@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Optiscan - Scan</title>
+
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Quicksand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    .navbar {
+      background-color: #bcd7ed;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-left img {
+      width: 70px;
+    }
+
+    .nav-left .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+      color: #004a7c;
+      margin-left: -30px;
+    }
+
+    .nav-center a {
+      margin: 0 20px;
+      text-decoration: none;
+      color: #002b4d;
+      font-weight: bold;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-right i {
+      font-size: 24px;
+      color: #002b4d;
+      margin-left: 15px;
+      cursor: pointer;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      padding: 40px 60px;
+      gap: 40px;
+    }
+
+    .left-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .upload-text {
+      font-size: 16px;
+      color: #333;
+      text-align: left;
+      margin-bottom: 30px;
+      line-height: 1.8;
+    }
+
+    .left-panel {
+      background-color: white;
+      width: 360px;
+      height: auto;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-left: 150px;
+      margin-top: 30px;
+      overflow: hidden;
+    }
+
+    .upload-icon {
+      font-size: 60px;
+      color: #999;
+      margin-bottom: 15px;
+      opacity: 0.4;
+    }
+
+    .upload-btn {
+      background-color: #1e1e1e;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .right-panel {
+      width: 60%;
+      padding-left: 40px;
+      margin-top: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    .form-group select {
+      width: 300px;
+      padding:4px 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 13px;
+    }
+
+    .scan-btn {
+      margin-top: 10px;
+      background-color: #0072bc;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .scan-btn:hover {
+      background-color: #004a7c;
+    }
+
+    .preview-img {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 10px;
+      opacity: 0;
+      animation: waveFill 1.2s ease-out forwards;
+    }
+
+    @keyframes waveFill {
+      0% {
+        clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+        opacity: 0.1;
+      }
+      50% {
+        clip-path: polygon(0 60%, 100% 65%, 100% 100%, 0 100%);
+        opacity: 0.7;
+      }
+      100% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        opacity: 1;
+      }
+    }
+
+    .image-wrapper {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .alert-msg {
+      color: red;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    #changeImageBtn {
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="nav-left">
+      <img src="{{ url_for('static', filename='images/لوقو.png') }}" alt="Logo" />
+      <div class="logo-text">OPTISCAN</div>
+    </div>
+
+    <div class="nav-right">
+      <i class="fas fa-user-circle" title="Profile"></i>
+      <a href="{{ url_for('sn_new') }}" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="left-wrapper">
+      <div class="upload-text">
+        Kindly upload a retinal image—either an OCT or CFP scan.<br>
+        The system will analyze your input using AI models to generate an accurate diagnosis.
+      </div>
+
+      <div class="left-panel" id="previewBox">
+        <i class="fas fa-cloud-upload-alt upload-icon" id="uploadIcon"></i>
+        <label class="upload-btn" for="imageInput" id="uploadLabel">Select image</label>
+        <input type="file" id="imageInput" accept="image/*">
+        <div id="imageContainer" class="image-wrapper"></div>
+        <button id="changeImageBtn" class="upload-btn" style="display: none;">Change Image</button>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="form-group">
+        <label for="age">What is your age group?</label>
+        <select id="age">
+          <option value="">Select</option>
+          <option value="A">&lt;18</option>
+          <option value="B">18–40</option>
+          <option value="C">40–60</option>
+          <option value="D">&gt;60</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">What is your gender?</label>
+        <select id="gender">
+          <option value="">Select</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="diet">Do you follow a healthy diet?</label>
+        <select id="diet">
+          <option value="">Select</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="screen-time">How many hours do you spend on screens daily?</label>
+        <select id="screen-time">
+          <option value="">Select</option>
+          <option value="A">&lt;2</option>
+          <option value="B">2–5</option>
+          <option value="C">&gt;5</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="smoke">Do you smoke?</label>
+        <select id="smoke">
+          <option value="">Select</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="dry-eyes">Do you experience frequent dry eyes?</label>
+        <select id="dry-eyes">
+          <option value="">Select</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <button class="scan-btn" id="scanBtn">Start Scan</button>
+      <div class="alert-msg" id="alertMsg">Please complete all questions and upload an image before proceeding.</div>
+      <textarea id="resultBox" rows="8" style="width: 100%; margin-top: 20px; padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc; resize: none;" placeholder="Diagnosis and advice will appear here..." readonly></textarea>
+    </div>
+  </div>
+
+  <script>
+    const selects = document.querySelectorAll("select");
+    const fileInput = document.getElementById("imageInput");
+    const scanBtn = document.getElementById("scanBtn");
+    const previewBox = document.getElementById("previewBox");
+    const uploadIcon = document.getElementById("uploadIcon");
+    const uploadLabel = document.getElementById("uploadLabel");
+    const changeImageBtn = document.getElementById("changeImageBtn");
+    const alertMsg = document.getElementById("alertMsg");
+    const imageContainer = document.getElementById("imageContainer");
+
+    let imageUploaded = false;
+
+    function validateForm() {
+      const allSelected = Array.from(selects).every(sel => sel.value !== "");
+      return allSelected && imageUploaded;
+    }
+
+    scanBtn.addEventListener("click", async function () {
+      if (!validateForm()) {
+        alertMsg.style.display = "block";
+        return;
+      }
+
+      alertMsg.style.display = "none";
+
+      const formData = new FormData();
+      formData.append("image", fileInput.files[0]);
+      formData.append("age", document.getElementById("age").value);
+      formData.append("gender", document.getElementById("gender").value);
+      formData.append("diet", document.getElementById("diet").value);
+      formData.append("screen_time", document.getElementById("screen-time").value);
+      formData.append("smoke", document.getElementById("smoke").value);
+      formData.append("dry_eyes", document.getElementById("dry-eyes").value);
+
+      try {
+        const response = await fetch("/predict", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.json();
+        const diagnosis = result.diagnosis;
+        const advice = JSON.stringify(result.recommendations, null, 2); 
+
+        document.getElementById("resultBox").value =
+          `Diagnosis: ${diagnosis}\n\n💡 Advice:\n${advice}`;
+      } catch (error) {
+        document.getElementById("resultBox").value =
+          " Error: Could not fetch prediction. Make sure the server is running.";
+      }
+    });
+
+    fileInput.addEventListener("change", function () {
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          imageUploaded = true;
+          uploadIcon.style.display = "none";
+          uploadLabel.style.display = "none";
+          changeImageBtn.style.display = "inline-block";
+
+          imageContainer.innerHTML = "";
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.classList.add("preview-img");
+          imageContainer.appendChild(img);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    });
+
+    changeImageBtn.addEventListener("click", () => {
+      fileInput.value = "";
+      imageUploaded = false;
+      alertMsg.style.display = "none";
+
+      imageContainer.innerHTML = "";
+      uploadIcon.style.display = "block";
+      uploadLabel.style.display = "inline-block";
+      changeImageBtn.style.display = "none";
+    });
+  </script>
+
+</body>
+</html>

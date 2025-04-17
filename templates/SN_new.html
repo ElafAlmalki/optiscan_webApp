@@ -1,0 +1,120 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optiscan - Retina AI Diagnosis</title>
+
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Rajdhani:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: #ffffff;
+      display: flex;
+      min-height: 100vh;
+      justify-content: space-between;
+    }
+
+    .left-section {
+      width: 60%;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .header {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      display: flex;
+      align-items: center; 
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+    }
+
+    .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: #0072bc;
+      margin-left: -25px;
+    }
+
+    .main-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 36px;
+      color: #0072bc;
+      font-weight: 800;
+      margin-top: 80px;
+      margin-bottom: 30px;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    p {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 16px;
+      color: #333;
+      margin-left: 20px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      margin-left: 240px;
+      background-color: #a0c4e3;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .btn:hover {
+      background-color: #0072bc;
+    }
+
+    .right-section {
+      width: 40%;
+      height: 100vh;
+      background-image: url("{{ url_for('static', filename='images/رئيسية.png') }}");
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="left-section">
+    <div class="header">
+      <img src="{{ url_for('static', filename='images/لوقو.png') }}" class="logo" />
+      <div class="logo-text">OPTISCAN</div>
+    </div>
+
+    <div class="main-title">RETINA AI DISEASE DIAGNOSIS</div>
+    <p>Start your journey in diagnosing eye diseases with AI — click the 'Get Started' button</p>
+    <button class="btn" onclick="getStarted()">Get Started</button>
+  </div>
+
+  <div class="right-section"></div>
+
+  <script>
+    function getStarted() {
+      window.location.href = "{{ url_for('signup') }}";
+    }
+  </script>
+
+</body>
+</html>

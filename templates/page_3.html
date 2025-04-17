@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optiscan - Sign Up</title>
+
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Quicksand:wght@500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #f3f3f3;
+    }
+
+    .left-section {
+      width: 40%;
+      background-image: url("{{ url_for('static', filename='images/صورة غيمة.jpg') }}"); 
+      background-size: cover;
+      background-position: center;
+      color: #003c5c;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-top-right-radius: 30px;
+      border-bottom-right-radius: 30px;
+      position: relative;
+    }
+
+    .logo-container {
+      position: absolute;
+      top: 30px;
+      left: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+    }
+
+    .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      font-weight: bold;
+      color: #0072bc;
+      margin-left: -25px;
+    }
+
+    .welcome-title {  
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      margin-bottom: 10px;
+      margin-top: 5px;
+      margin-left: 130px;   
+    }
+
+    .welcome-text {
+      font-size: 19px;
+      max-width: 300px;
+      margin-left: 60px;
+      text-align: center;
+    }
+
+    .right-section {
+      width: 60%;
+      padding: 60px;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin-left: 140px;   
+    }
+
+    .close-icon {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 26px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .form-box {
+      background-color: white;
+      padding: 50px;
+      padding-top: 60px;
+      padding-bottom: 60px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 420px;
+      margin-top: 40px;
+    }
+
+    .form-box label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .form-box input,
+    .form-box select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .form-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0072bc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.3s ease;
+    }
+
+    .form-box button:hover {
+      background-color: #005a94;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- يسار -->
+  <div class="left-section">
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='images/لوقو.png') }}" alt="Logo" class="logo">
+      <div class="logo-text">OPTISCAN</div>
+    </div>
+
+    <div class="welcome-title">Welcome!</div>
+    <div class="welcome-text">
+      Start your journey in diagnosing eye diseases using artificial intelligence
+    </div>
+  </div>
+
+  <!-- يمين -->
+  <div class="right-section">
+    <a href="{{ url_for('home') }}" class="close-icon">×</a>
+
+
+    <div class="form-box">
+      <form id="signup-form">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required />
+
+        <button type="button" onclick="validateSignup()">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function validateSignup() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (name === '' || email === '' || password === '') {
+        alert('يرجى تعبئة جميع الحقول.');
+      } else {
+        window.location.href = "{{ url_for('scan') }}";
+      }
+    }
+  </script>
+
+</body>
+</html>
