@@ -66,6 +66,8 @@ def preprocess_oct_image(image_path):
     image = np.expand_dims(image, axis=0)
     return image
 
+
+
 from tensorflow.keras.applications.vgg19 import preprocess_input
 def preprocess_standard_image(image_path):
     image = cv2.imread(image_path)
@@ -82,6 +84,8 @@ def preprocess_standard_image(image_path):
 
     return image
 
+
+
 def predict_image_type(image_path):
     image = preprocess_standard_image(image_path)
     prediction = oct_cfp_model.predict(image)
@@ -94,6 +98,8 @@ def predict_image_type(image_path):
         print("Warning: The model's prediction is not very confident.")
 
     return class_names[predicted_index]
+
+
 
 def predict_diagnosis(image_path, model, labels, image_type):
     if image_type == "CFP":
@@ -115,24 +121,8 @@ def predict_diagnosis(image_path, model, labels, image_type):
     predicted_class = np.argmax(predictions, axis=1)[0]
     return labels[predicted_class], predictions[0]
 
-# Questions
-#questions = {
-#    "age": "What is your age group? (A) <18  (B) 18-40  (C) 40-60  (D) >60",
-#    "gender": "What is your gender? (A) Male  (B) Female",
-#    "diet": "Do you follow a healthy diet? (A) Yes  (B) No",
-#    "screen_time": "How many hours do you spend on screens daily? (A) <2  (B) 2-5  (C) >5",
-#    "smoking": "Do you smoke? (A) Yes  (B) No",
-#    "dry_eyes": "Do you experience frequent dry eyes? (A) Yes  (B) No",
-#}
 
-# Ask questions
-#def collect_user_responses():
-#    responses = {}
-#    print("\nPlease answer the following questions:")
-#    for key, question in questions.items():
-#        response = input(f"{question}\nEnter your choice (A/B/C/D): ").strip().upper()
-#        responses[key] = response
-#    return responses
+
 
 # Generate LLM recommendations
 def generate_recommendations(diagnosis, user_responses):
@@ -182,13 +172,17 @@ def generate_recommendations(diagnosis, user_responses):
     [Final care tip]
     """
 
-    response = client.chat.completions.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.8
     )
 
     return response.choices[0].message.content
+
+
+
+
 
 from flask import Flask, request, jsonify, render_template
 from PIL import Image
