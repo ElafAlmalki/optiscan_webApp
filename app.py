@@ -229,9 +229,9 @@ def download_all_models():
 # Load models
 download_all_models()
 
-cfp_model = tf.keras.models.load_model("model/CFP_vgg19_model.keras")
-oct_model = tf.keras.models.load_model("model/ttry2.h5")
-oct_cfp_model = tf.keras.models.load_model("model/oct_cfp_vgg19_model (2).h5")
+cfp_model = tf.keras.models.load_model("model/CFP_vgg19_model.keras", compile=False)
+oct_model = tf.keras.models.load_model("model/ttry2.h5", compile=False)
+oct_cfp_model = tf.keras.models.load_model("model/oct_cfp_vgg19_model (2).h5", compile=False)
 
 # صفحات HTML
 @app.route('/')
