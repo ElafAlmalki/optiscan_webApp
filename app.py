@@ -208,24 +208,22 @@ def download_model_from_drive(file_id, output_path):
         print(f"{output_path} already exists. Skipping download.")
 
 def download_all_models():
-    os.makedirs("model", exist_ok=True)
-
     download_model_from_drive(
-        "1CLpud_9yx34Bt2UiAF0tpRZuBJ9g3Oae", "model/oct_cfp_vgg19_model (2).h5"
+        "1jzTZebKuNo8jsMp2znutYG69ymsMm9_r", "model/CFP_vgg19_model_converted.keras"
     )
     download_model_from_drive(
-        "16pwnSHZp3DaO2XZxzpg9DB8pxBU8NUV2", "model/CFP_vgg19_model.keras"
+        "1g_-J4s5FuLnFWZ3s7QiQNRHJth4-5TYv", "model/oct_cfp_vgg19_model_converted.keras"
     )
     download_model_from_drive(
-        "1LwQh88Cc-boe6pyEabUkQbDPdoN07Ber", "model/ttry2.h5"
+        "16UpxFVCxm-ITEYfG0jQAtBZGScrfBNQq", "model/ttry2_converted.keras"
     )
 
 # Load models
 download_all_models()
 
-cfp_model = tf.keras.models.load_model("model/CFP_vgg19_model.keras", compile=False)
-oct_model = tf.keras.models.load_model("model/ttry2.h5", compile=False)
-oct_cfp_model = tf.keras.models.load_model("model/oct_cfp_vgg19_model (2).h5", compile=False)
+cfp_model = tf.keras.models.load_model("model/CFP_vgg19_model_converted.keras")
+oct_model = tf.keras.models.load_model("model/ttry2_converted.keras")
+oct_cfp_model = tf.keras.models.load_model("model/oct_cfp_vgg19_model_converted.keras")
 
 # صفحات HTML
 @app.route('/')
